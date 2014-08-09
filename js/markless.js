@@ -8,28 +8,38 @@ window.markless.Editor = (function() {
   var spaceKeyCode = 32;
 
   var bindEditorEvents = function() {
-    this.editorElement.addEventListener('keyup', onKeyup);
+    this.editorElement.addEventListener('keypress', onKeyPress);
   };
 
   var findEditorElement = function() {
     this.editorElement = document.querySelector(this.configuration.selector);
   };
 
-  var onKeyup = function(event) {
+  var onKeyPress = function(event) {
     if (event.keyCode == spaceKeyCode) {
-      onSpaceKeyUp.call(this);
+      onSpaceKeyPress.call(this);
     }
   };
 
-  var onSpaceKeyUp = function() {
+  var onSpaceKeyPress = function() {
     var selectedRange = window.getSelection().getRangeAt(0);
     var currentLine = selectedRange.endContainer.data || "";
     var cursorIndex = selectedRange.endOffset;
-    var stringBeforeCursor = currentLine.slice(0, cursorIndex);
-    if (stringBeforeCursor.slice(0, -1) == '##') {
+    var stringBeforeSpace = currentLine.slice(0, cursorIndex);
+    if (stringBeforeSpace == '#') {
+      console.log('h1');
+    } else if (stringBeforeSpace == '##') {
       console.log('h2');
-    } else {
-      console.log(JSON.stringify(stringBeforeCursor));
+    } else if (stringBeforeSpace == '###') {
+      console.log('h3');
+    } else if (stringBeforeSpace == '####') {
+      console.log('h4');
+    } else if (stringBeforeSpace == '#####') {
+      console.log('h5');
+    } else if (stringBeforeSpace == '######') {
+      console.log('h6');
+    } else if (stringBeforeSpace == '*' || stringBeforeSpace == '-') {
+      console.log('li');
     }
   };
 
