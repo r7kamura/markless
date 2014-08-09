@@ -25,19 +25,19 @@ window.Markless = (function() {
     var cursorIndex = selectedRange.endOffset;
     var stringBeforeSpace = currentLine.slice(0, cursorIndex);
     if (stringBeforeSpace == '#') {
-      console.log('h1');
+      document.execCommand('formatblock', false, 'h1');
     } else if (stringBeforeSpace == '##') {
-      console.log('h2');
+      document.execCommand('formatblock', false, 'h2');
     } else if (stringBeforeSpace == '###') {
-      console.log('h3');
+      document.execCommand('formatblock', false, 'h3');
     } else if (stringBeforeSpace == '####') {
-      console.log('h4');
+      document.execCommand('formatblock', false, 'h4');
     } else if (stringBeforeSpace == '#####') {
-      console.log('h5');
+      document.execCommand('formatblock', false, 'h5');
     } else if (stringBeforeSpace == '######') {
-      console.log('h6');
+      document.execCommand('formatblock', false, 'h6');
     } else if (stringBeforeSpace == '*' || stringBeforeSpace == '-') {
-      console.log('li');
+      // TODO
     }
   };
 
