@@ -15,11 +15,11 @@ window.Markless = (function() {
 
   var onKeyPress = function(event) {
     if (event.keyCode == spaceKeyCode) {
-      onSpaceKeyPress.call(this);
+      onSpaceKeyPress.call(this, event);
     }
   };
 
-  var onSpaceKeyPress = function() {
+  var onSpaceKeyPress = function(event) {
     var selectedRange = window.getSelection().getRangeAt(0);
     var currentLine = selectedRange.endContainer.data || "";
     var cursorIndex = selectedRange.endOffset;
@@ -42,7 +42,11 @@ window.Markless = (function() {
       document.execCommand('insertUnorderedList');
     } else if (stringBeforeSpace.match(/^\d+\.$/)) {
       document.execCommand('insertOrderedList');
+    } else {
+      return;
     }
+    event.preventDefault();
+    window.getSelection().focusNode.data = "";
   };
 
   constructor.prototype.run = function() {
