@@ -1,6 +1,4 @@
-window.markless = {};
-
-window.markless.Editor = (function() {
+window.Markless = (function() {
   var constructor = function(configuration) {
     this.configuration = configuration;
   };

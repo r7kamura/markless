@@ -6,6 +6,6 @@ Comming soon.
 
 ## Example
 ```js
-var editor = new markless.Editor({ selector: '#editor' });
+var editor = new Markless({ selector: '#editor' });
 editor.run();
 ```
