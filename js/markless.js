@@ -36,8 +36,12 @@ window.Markless = (function() {
       document.execCommand('formatblock', false, 'h5');
     } else if (stringBeforeSpace == '######') {
       document.execCommand('formatblock', false, 'h6');
-    } else if (stringBeforeSpace == '*' || stringBeforeSpace == '-') {
-      // TODO
+    } else if (stringBeforeSpace == '>') {
+      document.execCommand('formatblock', false, 'blockquote');
+    } else if (stringBeforeSpace == '*' || stringBeforeSpace == '-' || stringBeforeSpace == '+') {
+      document.execCommand('insertUnorderedList');
+    } else if (stringBeforeSpace.match(/^\d+\.$/)) {
+      document.execCommand('insertOrderedList');
     }
   };
 
