@@ -11,8 +11,12 @@ window.Markless = (function() {
     this.editorElement = document.querySelector(this.selector);
   };
 
-  var focusOnEditor = function () {
+  var focusOnEditor = function() {
     this.editorElement.focus();
+  };
+
+  var makeEditorEditable = function() {
+    this.editorElement.contentEditable = true;
   };
 
   var onKeyDown = function(event) {
@@ -53,6 +57,7 @@ window.Markless = (function() {
 
   constructor.prototype.run = function() {
     findEditorElement.call(this);
+    makeEditorEditable.call(this);
     focusOnEditor.call(this);
     bindEditorEvents.call(this);
   };
