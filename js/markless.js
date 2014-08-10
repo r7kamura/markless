@@ -16,7 +16,7 @@ window.Markless = (function() {
   };
 
   var onKeyDown = function(event) {
-    var currentLine = window.getSelection().getRangeAt(0).endContainer.data || "";
+    var currentLine = getCurrentLine.call(this);
     if (currentLine == '#\xA0') {
       document.execCommand('formatblock', false, 'h1');
     } else if (currentLine == '##\xA0') {
@@ -38,7 +38,15 @@ window.Markless = (function() {
     } else {
       return;
     }
+    clearCurrentLine.call(this);
+  };
+
+  var clearCurrentLine = function() {
     window.getSelection().focusNode.data = "";
+  };
+
+  var getCurrentLine = function() {
+    return window.getSelection().getRangeAt(0).endContainer.data || ""; 
   };
 
   constructor.prototype.run = function() {
