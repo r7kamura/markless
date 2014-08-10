@@ -3,6 +3,7 @@ Markless is a WYSIWYG editor library, which supports Markdown key-binding ([Demo
 
 ![](/images/screencast.gif)
 
+
 ```js
 new Markless({ selector: '#editor' }).run();
 ```
