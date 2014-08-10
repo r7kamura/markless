@@ -1,8 +1,17 @@
 body {
   width: 800px;
   margin: 40px auto;
+  font-family: Georgia, Times, 'Times New Roman', serif;
+  line-height: 1.7;
 }
 
 .editable:focus {
   outline: none;
+}
+
+.editable blockquote {
+  margin: 0;
+  padding: 40px;
+  background-color: #f7f7f7;
+  color: #808080;
 }
