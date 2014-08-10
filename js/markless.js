@@ -48,6 +48,10 @@ window.Markless = (function() {
           } else if (hasPreLine.call(this)) {
             insertPreElement.call(this);
           }
+        } else if (hasDeleteKeyCode.call(this)) {
+          if (getCaretPosition.call(this) == 0 && getCurrentLine.call(this).match(/^\n?$/)) {
+            insertDivElement.call(this);
+          }
         } else {
           if (hasH1Line.call(this)) {
             insertH1Element.call(this);
@@ -141,14 +145,17 @@ window.Markless = (function() {
       return this.focusedElement;
     };
 
-    // To be exect, "Get current position in the focused element".
-    // This method is no longer used now.
     var getCaretPosition = function() {
       var range = window.getSelection().getRangeAt(0);
       var clonedRange = range.cloneRange();
-      clonedRange.selectNodeContents(getFocusedElement.call(this));
-      clonedRange.setEnd(range.endContainer, range.endOffset);
-      return clonedRange.toString().length;
+      var focusedElement = getFocusedElement.call(this);
+      if (focusedElement) {
+        clonedRange.selectNodeContents(this.markless.editorElement);
+        clonedRange.setEnd(range.endContainer, range.endOffset);
+        return clonedRange.toString().length;
+      } else {
+        return 0;
+      }
     };
 
     var getCurrentLine = function() {
@@ -216,6 +223,42 @@ window.Markless = (function() {
     var insertOrderedListElement = function() {
       document.execCommand('insertOrderedList');
       clearCurrentLine.call(this);
+    };
+
+    // Because quote element (blockquote or pre) cannot be converted into div by execComamnd,
+    // we use leaveFocusedElement method.
+    var insertDivElement = function() {
+      if (focusingOnQuoteElement.call(this)) {
+        leaveFocusedElement.call(this);
+      } else {
+        document.execCommand('formatblock', false, 'div');
+      }
+    };
+
+    var createEmptyLineDiv = function() {
+      var element = document.createElement('div');
+      element.innerHTML = '<br>';
+      return element;
+    };
+
+    var moveCaretTo = function(element) {
+      var range = document.createRange();
+      var selection = window.getSelection();
+      range.setStart(element, 0);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    };
+
+    var leaveFocusedElement = function() {
+      var focusedElement = getFocusedElement.call(this);
+      clearCurrentLine.call(this);
+      if (focusedElement.innerText == '') {
+        this.markless.editorElement.removeChild(focusedElement);
+      }
+      var element = createEmptyLineDiv.call(this);
+      this.markless.editorElement.insertBefore(element, focusedElement);
+      moveCaretTo.call(this, element);
     };
 
     return constructor;
