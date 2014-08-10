@@ -41,6 +41,7 @@ window.Markless = (function() {
       document.execCommand('insertOrderedList');
     } else if (event.keyCode == 13 && currentLine.match(/^```.*$/)) {
       document.execCommand('formatblock', false, 'pre');
+      event.preventDefault();
     } else {
       return;
     }
