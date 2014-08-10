@@ -14,35 +14,28 @@ window.Markless = (function() {
   };
 
   var onKeyPress = function(event) {
-    if (event.keyCode == spaceKeyCode) {
-      onSpaceKeyPress.call(this, event);
-    }
-  };
-
-  var onSpaceKeyPress = function(event) {
     var currentLine = window.getSelection().getRangeAt(0).endContainer.data || "";
-    if (currentLine == '#') {
+    if (currentLine == '#\xA0') {
       document.execCommand('formatblock', false, 'h1');
-    } else if (currentLine == '##') {
+    } else if (currentLine == '##\xA0') {
       document.execCommand('formatblock', false, 'h2');
-    } else if (currentLine == '###') {
+    } else if (currentLine == '###\xA0') {
       document.execCommand('formatblock', false, 'h3');
-    } else if (currentLine == '####') {
+    } else if (currentLine == '####\xA0') {
       document.execCommand('formatblock', false, 'h4');
-    } else if (currentLine == '#####') {
+    } else if (currentLine == '#####\xA0') {
       document.execCommand('formatblock', false, 'h5');
-    } else if (currentLine == '######') {
+    } else if (currentLine == '######\xA0') {
       document.execCommand('formatblock', false, 'h6');
-    } else if (currentLine == '>') {
+    } else if (currentLine == '>\xA0') {
       document.execCommand('formatblock', false, 'blockquote');
-    } else if (currentLine == '*' || currentLine == '-' || currentLine == '+') {
+    } else if (currentLine == '*\xA0' || currentLine == '-\xA0' || currentLine == '+\xA0') {
       document.execCommand('insertUnorderedList');
-    } else if (currentLine.match(/^\d+\.$/)) {
+    } else if (currentLine.match(/^\d+\.\xA0$/)) {
       document.execCommand('insertOrderedList');
     } else {
       return;
     }
-    event.preventDefault();
     window.getSelection().focusNode.data = "";
   };
 
