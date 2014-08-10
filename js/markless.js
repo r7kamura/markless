@@ -11,6 +11,10 @@ window.Markless = (function() {
     this.editorElement = document.querySelector(this.selector);
   };
 
+  var focusOnEditor = function () {
+    this.editorElement.focus();
+  };
+
   var onKeyDown = function(event) {
     var currentLine = window.getSelection().getRangeAt(0).endContainer.data || "";
     if (currentLine == '#\xA0') {
@@ -39,6 +43,7 @@ window.Markless = (function() {
 
   constructor.prototype.run = function() {
     findEditorElement.call(this);
+    focusOnEditor.call(this);
     bindEditorEvents.call(this);
   };
 
