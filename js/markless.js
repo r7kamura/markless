@@ -41,40 +41,50 @@ window.Markless = (function() {
     };
 
     constructor.prototype.react = function() {
-      if (hasEnterKeyCode.call(this)) {
-        if (focusingOnPreElement.call(this) || focusingOnBlockquoteElement.call(this)) {
-          insertLineBreak.call(this);
-        } else if (hasCodeLine.call(this)) {
-          insertPreElement.call(this);
-        }
-      } else {
-        if (hasH1Line.call(this)) {
-          insertH1Element.call(this);
-        } else if (hasH2Line.call(this)) {
-          insertH2Element.call(this);
-        } else if (hasH3Line.call(this)) {
-          insertH3Element.call(this);
-        } else if (hasH4Line.call(this)) {
-          insertH4Element.call(this);
-        } else if (hasH5Line.call(this)) {
-          insertH5Element.call(this);
-        } else if (hasH6Line.call(this)) {
-          insertH6Element.call(this);
-        } else if (hasBlockquoteLine.call(this)) {
-          insertBlockquoteElement.call(this);
-        } else if (hasOrderedListLine.call(this)) {
-          insertOrderedListElement.call(this);
-        } else if (hasUnorderedListLine.call(this)) {
-          insertUnorderedListElement.call(this);
+      if (hasKeydownEvent.call(this)) {
+        if (hasEnterKeyCode.call(this)) {
+          if (focusingOnQuoteElement.call(this)) {
+            insertLineBreak.call(this);
+          } else if (hasPreLine.call(this)) {
+            insertPreElement.call(this);
+          }
+        } else {
+          if (hasH1Line.call(this)) {
+            insertH1Element.call(this);
+          } else if (hasH2Line.call(this)) {
+            insertH2Element.call(this);
+          } else if (hasH3Line.call(this)) {
+            insertH3Element.call(this);
+          } else if (hasH4Line.call(this)) {
+            insertH4Element.call(this);
+          } else if (hasH5Line.call(this)) {
+            insertH5Element.call(this);
+          } else if (hasH6Line.call(this)) {
+            insertH6Element.call(this);
+          } else if (hasBlockquoteLine.call(this)) {
+            insertBlockquoteElement.call(this);
+          } else if (hasOrderedListLine.call(this)) {
+            insertOrderedListElement.call(this);
+          } else if (hasUnorderedListLine.call(this)) {
+            insertUnorderedListElement.call(this);
+          }
         }
       }
+    };
+
+    var hasKeydownEvent = function() {
+      return this.event.type == 'keydown';
     };
 
     var hasEnterKeyCode = function() {
       return this.event.keyCode == 13;
     };
 
-    var hasCodeLine = function() {
+    var hasDeleteKeyCode = function() {
+      return this.event.keyCode == 8;
+    };
+
+    var hasPreLine = function() {
       return getCurrentLine.call(this).match(/^```.*$/);
     };
 
@@ -114,12 +124,9 @@ window.Markless = (function() {
       return getCurrentLine.call(this).match(/^\d+\.\xA0$/);
     };
 
-    var focusingOnPreElement = function() {
-      return getFocusedElement.call(this).nodeName == 'PRE';
-    };
-
-    var focusingOnBlockquoteElement = function() {
-      return getFocusedElement.call(this).nodeName == 'BLOCKQUOTE';
+    var focusingOnQuoteElement = function() {
+      var element = getFocusedElement.call(this);
+      return (element && (element.nodeName == 'PRE' || element.nodeName == 'BLOCKQUOTE'));
     };
 
     // Get the focused element node recursively because endContainer may return text node.
@@ -132,6 +139,16 @@ window.Markless = (function() {
         this.focusedElement = element;
       }
       return this.focusedElement;
+    };
+
+    // To be exect, "Get current position in the focused element".
+    // This method is no longer used now.
+    var getCaretPosition = function() {
+      var range = window.getSelection().getRangeAt(0);
+      var clonedRange = range.cloneRange();
+      clonedRange.selectNodeContents(getFocusedElement.call(this));
+      clonedRange.setEnd(range.endContainer, range.endOffset);
+      return clonedRange.toString().length;
     };
 
     var getCurrentLine = function() {
