@@ -3,6 +3,13 @@ window.Markless = (function() {
     this.selector = configuration.selector;
   };
 
+  constructor.prototype.run = function() {
+    findEditorElement.call(this);
+    makeEditorEditable.call(this);
+    focusOnEditor.call(this);
+    bindEditorEvents.call(this);
+  };
+
   var enterKeyCode = 13;
 
   var bindEditorEvents = function() {
@@ -86,13 +93,6 @@ window.Markless = (function() {
       element = element.parentNode;
     }
     return element;
-  };
-
-  constructor.prototype.run = function() {
-    findEditorElement.call(this);
-    makeEditorEditable.call(this);
-    focusOnEditor.call(this);
-    bindEditorEvents.call(this);
   };
 
   return constructor;
