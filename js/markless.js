@@ -3,8 +3,13 @@ window.Markless = (function() {
     this.selector = configuration.selector;
   };
 
+  var enterKeyCode = 13;
+
   var bindEditorEvents = function() {
-    this.editorElement.addEventListener('keydown', onKeyDown);
+    var self = this;
+    this.editorElement.addEventListener('keydown', function(event) {
+      onKeyDown.call(self, event);
+    });
   };
 
   var findEditorElement = function() {
@@ -20,6 +25,14 @@ window.Markless = (function() {
   };
 
   var onKeyDown = function(event) {
+    if (event.keyCode == enterKeyCode) {
+      onEnterKeyDown.call(this, event);
+    } else {
+      onOtherKeyDown.call(this, event);
+    }
+  };
+
+  var onOtherKeyDown = function(event) {
     var currentLine = getCurrentLine.call(this);
     if (currentLine == '#\xA0') {
       document.execCommand('formatblock', false, 'h1');
@@ -39,13 +52,23 @@ window.Markless = (function() {
       document.execCommand('insertUnorderedList');
     } else if (currentLine.match(/^\d+\.\xA0$/)) {
       document.execCommand('insertOrderedList');
-    } else if (event.keyCode == 13 && currentLine.match(/^```.*$/)) {
-      document.execCommand('formatblock', false, 'pre');
-      event.preventDefault();
     } else {
       return;
     }
     clearCurrentLine.call(this);
+  };
+
+  var onEnterKeyDown = function(event) {
+    var focusedElementName = getFocusedElement.call(this).nodeName;
+    if (focusedElementName == 'PRE' || focusedElementName == 'BLOCKQUOTE') {
+      document.execCommand('insertLineBreak');
+    } else if (getCurrentLine.call(this).match(/^```.*$/)) {
+      document.execCommand('formatblock', false, 'pre');
+      clearCurrentLine.call(this);
+    } else {
+      return;
+    }
+    event.preventDefault();
   };
 
   var clearCurrentLine = function() {
@@ -54,6 +77,15 @@ window.Markless = (function() {
 
   var getCurrentLine = function() {
     return window.getSelection().getRangeAt(0).endContainer.data || "";
+  };
+
+  // Get the focused element node recursively because endContainer may return text node.
+  var getFocusedElement = function() {
+    var element = window.getSelection().getRangeAt(0).endContainer;
+    while (element && element.parentNode != this.editorElement) {
+      element = element.parentNode;
+    }
+    return element;
   };
 
   constructor.prototype.run = function() {
