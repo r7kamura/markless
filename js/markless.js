@@ -20,27 +20,24 @@ window.Markless = (function() {
   };
 
   var onSpaceKeyPress = function(event) {
-    var selectedRange = window.getSelection().getRangeAt(0);
-    var currentLine = selectedRange.endContainer.data || "";
-    var cursorIndex = selectedRange.endOffset;
-    var stringBeforeSpace = currentLine.slice(0, cursorIndex);
-    if (stringBeforeSpace == '#') {
+    var currentLine = window.getSelection().getRangeAt(0).endContainer.data || "";
+    if (currentLine == '#') {
       document.execCommand('formatblock', false, 'h1');
-    } else if (stringBeforeSpace == '##') {
+    } else if (currentLine == '##') {
       document.execCommand('formatblock', false, 'h2');
-    } else if (stringBeforeSpace == '###') {
+    } else if (currentLine == '###') {
       document.execCommand('formatblock', false, 'h3');
-    } else if (stringBeforeSpace == '####') {
+    } else if (currentLine == '####') {
       document.execCommand('formatblock', false, 'h4');
-    } else if (stringBeforeSpace == '#####') {
+    } else if (currentLine == '#####') {
       document.execCommand('formatblock', false, 'h5');
-    } else if (stringBeforeSpace == '######') {
+    } else if (currentLine == '######') {
       document.execCommand('formatblock', false, 'h6');
-    } else if (stringBeforeSpace == '>') {
+    } else if (currentLine == '>') {
       document.execCommand('formatblock', false, 'blockquote');
-    } else if (stringBeforeSpace == '*' || stringBeforeSpace == '-' || stringBeforeSpace == '+') {
+    } else if (currentLine == '*' || currentLine == '-' || currentLine == '+') {
       document.execCommand('insertUnorderedList');
-    } else if (stringBeforeSpace.match(/^\d+\.$/)) {
+    } else if (currentLine.match(/^\d+\.$/)) {
       document.execCommand('insertOrderedList');
     } else {
       return;
