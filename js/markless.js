@@ -35,6 +35,8 @@ window.Markless = (function() {
       document.execCommand('insertUnorderedList');
     } else if (currentLine.match(/^\d+\.\xA0$/)) {
       document.execCommand('insertOrderedList');
+    } else if (event.keyCode == 13 && currentLine.match(/^```.*$/)) {
+      document.execCommand('formatblock', false, 'pre');
     } else {
       return;
     }
@@ -46,7 +48,7 @@ window.Markless = (function() {
   };
 
   var getCurrentLine = function() {
-    return window.getSelection().getRangeAt(0).endContainer.data || ""; 
+    return window.getSelection().getRangeAt(0).endContainer.data || "";
   };
 
   constructor.prototype.run = function() {
