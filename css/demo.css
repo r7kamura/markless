@@ -9,9 +9,10 @@ body {
   outline: none;
 }
 
+.editable pre,
 .editable blockquote {
-  margin: 0;
-  padding: 40px;
+  margin: 0 0 10px;
+  padding: 20px;
   background-color: #f7f7f7;
   color: #808080;
 }
