@@ -1,6 +1,6 @@
 window.Markless = (function() {
   var constructor = function(configuration) {
-    this.configuration = configuration;
+    this.selector = configuration.selector;
   };
 
   var spaceKeyCode = 32;
@@ -10,7 +10,7 @@ window.Markless = (function() {
   };
 
   var findEditorElement = function() {
-    this.editorElement = document.querySelector(this.configuration.selector);
+    this.editorElement = document.querySelector(this.selector);
   };
 
   var onKeyPress = function(event) {
