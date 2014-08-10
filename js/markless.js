@@ -201,8 +201,6 @@ window.Markless = (function() {
       clearCurrentLine.call(this);
     };
 
-    var nullAction = function() {};
-
     return constructor;
   })();
 
