@@ -1,6 +1,7 @@
 body {
   width: 800px;
   margin: 40px auto;
+  padding: 0 20px;
   font-family: Georgia, Times, 'Times New Roman', serif;
   line-height: 1.7;
 }
