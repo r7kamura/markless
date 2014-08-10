@@ -3,8 +3,6 @@ window.Markless = (function() {
     this.selector = configuration.selector;
   };
 
-  var spaceKeyCode = 32;
-
   var bindEditorEvents = function() {
     this.editorElement.addEventListener('keypress', onKeyPress);
   };
