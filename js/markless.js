@@ -4,14 +4,14 @@ window.Markless = (function() {
   };
 
   var bindEditorEvents = function() {
-    this.editorElement.addEventListener('keypress', onKeyPress);
+    this.editorElement.addEventListener('keydown', onKeyDown);
   };
 
   var findEditorElement = function() {
     this.editorElement = document.querySelector(this.selector);
   };
 
-  var onKeyPress = function(event) {
+  var onKeyDown = function(event) {
     var currentLine = window.getSelection().getRangeAt(0).endContainer.data || "";
     if (currentLine == '#\xA0') {
       document.execCommand('formatblock', false, 'h1');
