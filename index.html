@@ -4,7 +4,20 @@
     <link rel="stylesheet" href="css/demo.css">
   </head>
   <body>
-    <div class="editable js-editable"></div>
+    <div class="editable js-editable" contenteditable="true">
+      <h2>About</h2>
+      <div>This is a demo page of Markless. You can edit any DOM elements in this page.</div>
+      <h2>Supported key-bindings</h2>
+      <div>Markless provides some Markdown-like key-bindings. For example, when you type "## ...", it becomes h2 element. Here is a list of supported key-bindings:</div>
+      <ul>
+        <li><span style="line-height: 1.7;">heading (#, ##, ###, ...)</span></li>
+        <li>unordered list (*, +, -)</li>
+        <li>ordered list (1. , 2., 3. , ...)</li>
+        <li>blockquote (&gt;)</li>
+        <li>pre (```)</li>
+      </ul>
+    </div>
+
     <script src="js/markless.js"></script>
     <script>
       new Markless({ selector: '.js-editable' }).run();
