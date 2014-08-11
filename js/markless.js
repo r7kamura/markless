@@ -49,7 +49,7 @@ window.Markless = (function() {
             insertPreElement.call(this);
           }
         } else if (hasDeleteKeyCode.call(this)) {
-          if (getCaretPosition.call(this) == 0 && getCurrentLine.call(this).match(/^\n?$/)) {
+          if (getCaretPosition.call(this) == 0 && hasEmptyLine.call(this)) {
             insertDivElement.call(this);
           }
         } else {
@@ -128,6 +128,10 @@ window.Markless = (function() {
       return getCurrentLine.call(this).match(/^\d+\.\xA0$/);
     };
 
+    var hasEmptyLine = function() {
+      return getCurrentLine.call(this).match(/^\n?$/);
+    };
+
     var focusingOnQuoteElement = function() {
       var element = getFocusedElement.call(this);
       return (element && (element.nodeName == 'PRE' || element.nodeName == 'BLOCKQUOTE'));
@@ -150,7 +154,7 @@ window.Markless = (function() {
       var clonedRange = range.cloneRange();
       var focusedElement = getFocusedElement.call(this);
       if (focusedElement) {
-        clonedRange.selectNodeContents(this.markless.editorElement);
+        clonedRange.selectNodeContents(focusedElement);
         clonedRange.setEnd(range.endContainer, range.endOffset);
         return clonedRange.toString().length;
       } else {
